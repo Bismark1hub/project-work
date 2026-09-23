@@ -4,28 +4,15 @@
   "workspaces": [
     "client",
     "server"
-   
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "npm -w client run dev",
     "dev:server": "npm -w server run dev",
-    "build": "npm -w client run build && npm -w server run build",
+    "build": "npm -w client run build && npm -w server run build"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "typescript": "^5.4.0"
-  },
-  "dependencies": {
-    "@types/web-push": "^3.6.4",
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "pg": "^8.22.0",
-    "recharts": "^3.9.1",
-    "uuid": "^14.0.1",
-    "web-push": "^3.6.7"
   }
 }
