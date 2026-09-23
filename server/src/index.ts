@@ -16,8 +16,17 @@ import pushRoutes from './routes/push.routes';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+
+
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.CORS_ORIGIN
+    : 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(express.json());
+
+
 
 app.get('/api/health', (_req, res) => {
   res.json({ success: true, data: { status: 'ok' } });
