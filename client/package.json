@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@smart-study/shared": "*",
+    
     "@tanstack/react-query": "^5.28.0",
     "axios": "^1.6.7",
     "date-fns": "^3.6.0",
