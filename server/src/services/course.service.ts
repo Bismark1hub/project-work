@@ -15,13 +15,19 @@ export class CourseService {
     name: string;
     difficulty?: string;
     color?: string;
-    icon?: string;
   }) {
     const id = uuidv4();
     await query(
-      `INSERT INTO courses (id, user_id, code, name, difficulty, color, icon)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [id, userId, data.code, data.name, data.difficulty || 'medium', data.color || '#F5C518', data.icon || 'book']
+      `INSERT INTO courses (id, user_id, code, name, difficulty, color)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [
+        id,
+        userId,
+        data.code,
+        data.name,
+        data.difficulty || 'medium',
+        data.color || '#F5C518',
+      ]
     );
     const result = await query('SELECT * FROM courses WHERE id = $1', [id]);
     return result.rows[0];
@@ -39,6 +45,8 @@ export class CourseService {
         paramCount++;
       }
     });
+
+    if (fields.length === 0) return null;
 
     values.push(courseId, userId);
     await query(
