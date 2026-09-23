@@ -21,14 +21,23 @@ export class AdminService {
 
   static async getUsers() {
     const result = await query(
-      `SELECT id, first_name, last_name, email, university_id, department, role, day_streak, productivity_score, created_at
+      `SELECT id, first_name, last_name, email, role, day_streak, productivity_score, created_at
        FROM users ORDER BY created_at DESC`
     );
     return result.rows;
   }
 
   static async getTableCounts() {
-    const tables = ['users', 'courses', 'schedule_sessions', 'tasks', 'behavior_logs', 'insights', 'notifications', 'user_settings'];
+    const tables = [
+      'users',
+      'courses',
+      'schedule_sessions',
+      'tasks',
+      'behavior_logs',
+      'insights',
+      'notifications',
+      'user_settings',
+    ];
     const counts: Record<string, number> = {};
 
     for (const table of tables) {
@@ -41,7 +50,8 @@ export class AdminService {
 
   static async checkEngine() {
     try {
-      const response = await fetch('http://localhost:8001/health');
+      const engineUrl = process.env.ENGINE_URL || 'http://localhost:8001';
+      const response = await fetch(`${engineUrl}/health`);
       const data = await response.json();
       return { online: true, ...data };
     } catch {
