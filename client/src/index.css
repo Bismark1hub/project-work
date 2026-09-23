@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fix dropdown/select options */
+select option {
+  background: #1a1a3e;
+  color: white;
+}
+
+/* ============================================
+   LIGHT THEME OVERRIDES
+   ============================================ */
+html.light body {
+  background: #f0f2f5 !important;
+  color: #1a1a2e !important;
+}
+
+/* Backgrounds */
+html.light .bg-\[\#0D0F3C\] {
+  background: #f0f2f5 !important;
+}
+html.light .bg-white\/5 {
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+html.light .bg-white\/10 {
+  background: #e8ecf0 !important;
+}
+html.light .bg-white\/20 {
+  background: #dde1e6 !important;
+}
+
+/* Text colors */
+html.light .text-white {
+  color: #1a1a2e !important;
+}
+html.light .text-white\/50 {
+  color: #666 !important;
+}
+html.light .text-white\/70 {
+  color: #444 !important;
+}
+html.light .text-white\/40 {
+  color: #888 !important;
+}
+html.light .text-white\/30 {
+  color: #aaa !important;
+}
+
+/* Borders */
+html.light .border-white\/10 {
+  border-color: #e0e0e0 !important;
+}
+
+/* Hover states */
+html.light .hover\:bg-white\/5:hover {
+  background: #f5f6f7 !important;
+}
+html.light .hover\:bg-white\/10:hover {
+  background: #e8ecf0 !important;
+}
+html.light .hover\:bg-white\/20:hover {
+  background: #dde1e6 !important;
+}
+
+/* Sidebar */
+html.light aside.bg-white\/5 {
+  background: #ffffff !important;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+}
+
+/* Top bar */
+html.light header.bg-white\/5 {
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Cards and containers */
+html.light .rounded-2xl.bg-white\/5 {
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* Inputs */
+html.light input.bg-white\/5,
+html.light select.bg-white\/5 {
+  background: #f5f6f7 !important;
+  border-color: #ddd !important;
+  color: #1a1a2e !important;
+}
+
+html.light input.bg-white\/5::placeholder,
+html.light select.bg-white\/5::placeholder {
+  color: #999 !important;
+}
+
+/* Red/green/yellow background cards in light mode */
+html.light .bg-red-500\/10 {
+  background: #fef2f2 !important;
+  border-color: #fecaca !important;
+}
+html.light .bg-green-500\/10 {
+  background: #f0fdf4 !important;
+  border-color: #bbf7d0 !important;
+}
+html.light .bg-yellow-500\/20 {
+  background: #fefce8 !important;
+  border-color: #fef08a !important;
+}
+html.light .bg-blue-500\/20 {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+
+/* Select dropdowns in light mode */
+html.light select option {
+  background: #ffffff !important;
+  color: #1a1a2e !important;
+}
+
+/* Auth page container */
+html.light .min-h-screen.bg-\[\#0D0F3C\] {
+  background: #f0f2f5 !important;
+}
+
+
+body {
+  overflow-x: hidden;
+}
