@@ -20,30 +20,30 @@ export class InsightService {
   }
 
   static async generateInsights(userId: string) {
-    // 1. Try to get insights from the Python engine (existing behavior)
+    // 1. Try to get insights from the Python engine
     const engineInsights = await this.fetchEngineInsights(userId);
     if (engineInsights.length > 0) {
       await this.storeInsights(userId, engineInsights);
     }
 
-    // 2. Also generate reschedule insights for missed sessions (new)
+    // 2. Generate reschedule insights for missed sessions
     await this.generateRescheduleInsights(userId);
 
-    // 3. Return all pending insights for this user
+    // 3. Return all pending insights
     return this.getPending(userId);
   }
 
-  // Existing method to call Python engine
   private static async fetchEngineInsights(userId: string): Promise<any[]> {
     try {
       const logsResult = await query(
-        `SELECT id, user_id, session_id, scheduled_at, actual_start, actual_end, status, subject_id
+        `SELECT id, user_id, session_id, scheduled_at, actual_start, actual_end, status
          FROM behavior_logs
          WHERE user_id = $1
          ORDER BY scheduled_at DESC
          LIMIT 200`,
         [userId]
       );
+
       const tasksResult = await query(
         `SELECT id, title, due_date, priority, status
          FROM tasks
@@ -61,7 +61,6 @@ export class InsightService {
         actual_start: row.actual_start instanceof Date ? row.actual_start.toISOString() : row.actual_start,
         actual_end: row.actual_end instanceof Date ? row.actual_end.toISOString() : row.actual_end,
         status: row.status,
-        subject_id: row.subject_id,
       }));
 
       const tasks = tasksResult.rows.map((row: any) => ({
@@ -76,7 +75,12 @@ export class InsightService {
       const response = await fetch(`${engineUrl}/api/engine/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, behavior_logs: logs, upcoming_tasks: tasks, current_schedule: [] }),
+        body: JSON.stringify({
+          user_id: userId,
+          behavior_logs: logs,
+          upcoming_tasks: tasks,
+          current_schedule: [],
+        }),
       });
 
       if (!response.ok) {
@@ -95,7 +99,6 @@ export class InsightService {
     }
   }
 
-  // Store insights from engine, now with metadata support
   private static async storeInsights(userId: string, insights: any[]) {
     for (const insight of insights) {
       const id = uuidv4();
@@ -116,9 +119,7 @@ export class InsightService {
     }
   }
 
-  // NEW: Generate reschedule insights for missed sessions
   private static async generateRescheduleInsights(userId: string) {
-    // Find missed sessions that don't already have a reschedule insight
     const missed = await query(
       `SELECT ss.id, ss.title, ss.start_time, ss.end_time, ss.course_id
        FROM schedule_sessions ss
@@ -136,7 +137,6 @@ export class InsightService {
     for (const session of missed.rows) {
       try {
         const engineUrl = process.env.ENGINE_URL || 'http://localhost:8001';
-        // Call the rescheduler endpoint in the Python engine
         const response = await fetch(`${engineUrl}/api/engine/reschedule`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -182,44 +182,48 @@ export class InsightService {
     }
   }
 
-  // NEW: Apply schedule change when accepting a reschedule insight
   static async accept(userId: string, insightId: string) {
-  const result = await query('SELECT * FROM insights WHERE id = $1 AND user_id = $2', [insightId, userId]);
-  if (result.rows.length === 0) throw new Error('Insight not found');
-
-  const insight = result.rows[0];
-
-  // If insight has metadata with session_id, update the schedule session
-  if (insight.metadata && insight.metadata.session_id) {
-    const { session_id, new_start_time, new_end_time } = insight.metadata;
-    await query(
-      `UPDATE schedule_sessions
-       SET start_time = $1, end_time = $2, status = 'planned'
-       WHERE id = $3 AND user_id = $4`,
-      [new_start_time, new_end_time, session_id, userId]
+    const result = await query(
+      'SELECT * FROM insights WHERE id = $1 AND user_id = $2',
+      [insightId, userId]
     );
+    if (result.rows.length === 0) throw new Error('Insight not found');
 
-    // Create a notification about the reschedule
+    const insight = result.rows[0];
 
-const sessionTitle = insight.metadata?.session_title || 'your session';
-await NotificationService.create(userId, {
-  type: 'adaptive',
-  title: 'Schedule Updated',
-  body: `Your session "${sessionTitle}" has been rescheduled.`
-});
+    // If reschedule insight, apply the schedule change
+    if (insight.metadata && insight.metadata.session_id) {
+      const { session_id, new_start_time, new_end_time, session_title } = insight.metadata;
+      await query(
+        `UPDATE schedule_sessions
+         SET start_time = $1, end_time = $2, status = 'planned'
+         WHERE id = $3 AND user_id = $4`,
+        [new_start_time, new_end_time, session_id, userId]
+      );
 
+      await NotificationService.create(userId, {
+        type: 'adaptive',
+        title: 'Schedule Updated',
+        body: `Your session "${session_title || 'session'}" has been rescheduled.`,
+      });
+    } else {
+      await NotificationService.create(userId, {
+        type: 'adaptive',
+        title: 'Insight Accepted',
+        body: `You accepted the insight: ${insight.title}`,
+      });
+    }
 
-
-  } else {
-    // For other insight types, just acknowledge with a notification
-    await NotificationService.create(userId, {
-      type: 'adaptive',
-      title: 'Insight Accepted',
-      body: `You accepted the insight: ${insight.title}`
-    });
+    await query(
+      "UPDATE insights SET status = 'accepted' WHERE id = $1 AND user_id = $2",
+      [insightId, userId]
+    );
   }
 
-  // Mark insight as accepted
-  await query("UPDATE insights SET status = 'accepted' WHERE id = $1 AND user_id = $2", [insightId, userId]);
-}
+  static async dismiss(userId: string, insightId: string) {
+    await query(
+      "UPDATE insights SET status = 'dismissed' WHERE id = $1 AND user_id = $2",
+      [insightId, userId]
+    );
+  }
 }
