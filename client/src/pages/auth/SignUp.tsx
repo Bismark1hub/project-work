@@ -58,7 +58,7 @@ export default function SignUp() {
               onFocus={() => setFocused({ ...focused, firstName: true })}
               onBlur={() => setFocused({ ...focused, firstName: false })}
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#F5C518]"
-              placeholder={focused.firstName ? '' : 'John'}
+              placeholder={focused.firstName ? '' : 'eg; John'}
               required
             />
           </div>
