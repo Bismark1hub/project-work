@@ -8,7 +8,7 @@ export default function SignUp() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);em
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState({ firstName: false, lastName: false, email: false, password: false });
@@ -86,7 +86,7 @@ export default function SignUp() {
             onFocus={() => setFocused({ ...focused, email: true })}
             onBlur={() => setFocused({ ...focused, email: false })}
             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#F5C518]"
-            placeholder={focused.email ? '' : 'eg; you@university.edu'}
+            placeholder={focused.email ? '' : 'example@gmail.com}
             required
           />
         </div>
