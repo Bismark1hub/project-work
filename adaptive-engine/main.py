@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import analyze
 
 app = FastAPI(
-    title="Smart Study Adaptive Engine",
+    title="Smart Study Planner Adaptive Engine",
     description="Behavioral analysis and scheduling recommendations for Smart Study",
     version="1.0.0",
 )

@@ -78,7 +78,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold text-white">
             {getGreeting()}, {user?.first_name}!
           </h1>
-          <p className="text-white/50 mt-1">Welcome to  Smart Study</p>
+          <p className="text-white/50 mt-1">Welcome to  Smart Study Planner</p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
           <div className="text-6xl mb-4">📚</div>

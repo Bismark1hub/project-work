@@ -33,7 +33,7 @@ export default function SignIn() {
   return (
     <div>
       <h2 className="text-2xl font-bold text-white mb-2">Sign In</h2>
-      <p className="text-white/50 mb-6">Welcome back to  Smart Study</p>
+      <p className="text-white/50 mb-6">Welcome back to  Smart Study Planner</p>
 
       {error && (
         <div className="bg-red-500/20 text-red-400 p-3 rounded-xl mb-4 text-sm">

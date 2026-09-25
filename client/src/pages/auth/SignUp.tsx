@@ -39,7 +39,7 @@ export default function SignUp() {
   return (
     <div>
       <h2 className="text-2xl font-bold text-white mb-2">Sign Up</h2>
-      <p className="text-white/50 mb-6">Create your  Smart Study account</p>
+      <p className="text-white/50 mb-6">Create your  Smart Study Planner account</p>
 
       {error && (
         <div className="bg-red-500/20 text-red-400 p-3 rounded-xl mb-4 text-sm">

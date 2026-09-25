@@ -1,5 +1,5 @@
 self.addEventListener('push', (event) => {
-  let data = { title: ' Smart Study', body: '' };
+  let data = { title: ' Smart Study Planner', body: '' };
 
   if (event.data) {
     try {

@@ -14,7 +14,7 @@ export default defineConfig({
         type: 'module',
       },
       manifest: {
-        name: ' Smart Study',
+        name: ' Smart Study Planner',
         short_name: 'Smart Study',
         description: 'Adaptive academic planner for university students',
         theme_color: '#0D0F3C',

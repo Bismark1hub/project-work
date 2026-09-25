@@ -50,7 +50,7 @@ export default function AdminLogin() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-white">Admin Portal</h1>
-          <p className="text-white/50 mt-1"> Smart Study</p>
+          <p className="text-white/50 mt-1"> Smart Study Planner</p>
         </div>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
