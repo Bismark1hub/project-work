@@ -33,7 +33,8 @@ export default function UserSettings() {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'danger'>('profile');
   const [pushLoading, setPushLoading] = useState(false);
-
+const [pushEnabled, setPushEnabled] = useState(false);
+  
   useEffect(() => {
     loadProfile();
     loadSettings();
