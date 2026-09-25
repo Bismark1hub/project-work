@@ -38,6 +38,7 @@ const [pushEnabled, setPushEnabled] = useState(false);
   useEffect(() => {
     loadProfile();
     loadSettings();
+     checkPushStatus();
   }, []);
 
   const loadProfile = async () => {
