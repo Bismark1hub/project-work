@@ -58,7 +58,7 @@ export default function SignUp() {
               onFocus={() => setFocused({ ...focused, firstName: true })}
               onBlur={() => setFocused({ ...focused, firstName: false })}
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#F5C518]"
-              placeholder={focused.firstName ? '' : 'eg; John'}
+              placeholder={focused.firstName ? '' : 'eg; James'}
               required
             />
           </div>
@@ -71,7 +71,7 @@ export default function SignUp() {
               onFocus={() => setFocused({ ...focused, lastName: true })}
               onBlur={() => setFocused({ ...focused, lastName: false })}
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#F5C518]"
-              placeholder={focused.lastName ? '' : 'Doe'}
+              placeholder={focused.lastName ? '' : 'eg; Walker'}
               required
             />
           </div>
@@ -86,7 +86,7 @@ export default function SignUp() {
             onFocus={() => setFocused({ ...focused, email: true })}
             onBlur={() => setFocused({ ...focused, email: false })}
             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#F5C518]"
-            placeholder={focused.email ? '' : 'you@university.edu'}
+            placeholder={focused.email ? '' : 'eg; you@university.edu'}
             required
           />
         </div>
